@@ -5,64 +5,111 @@ export default function Logo({ className = "h-10", showText = true, isDark = fal
     <div className={`flex items-center gap-3 ${className}`}>
       <svg 
         viewBox="0 0 64 64" 
-        className="h-full w-auto flex-shrink-0"
+        className="h-full w-auto flex-shrink-0 logo-svg"
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          <linearGradient id="tealGrad" x1="8" y1="4" x2="32" y2="54" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#06b6d4" />
-            <stop offset="100%" stopColor="#0d9488" />
+          {/* Main Ribbon Gradients */}
+          <linearGradient id="indigoGrad" x1="8" y1="4" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#818cf8" />
+            <stop offset="60%" stopColor="#6366f1" />
+            <stop offset="100%" stopColor="#4f46e5" />
           </linearGradient>
           <linearGradient id="roseGrad" x1="56" y1="4" x2="32" y2="54" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#f43f5e" />
+            <stop offset="0%" stopColor="#fb7185" />
+            <stop offset="60%" stopColor="#f43f5e" />
             <stop offset="100%" stopColor="#e11d48" />
           </linearGradient>
-          <linearGradient id="greenGrad" x1="22" y1="13" x2="42" y2="26" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#4ade80" />
-            <stop offset="100%" stopColor="#16a34a" />
+
+          {/* DNA Helix Gradient */}
+          <linearGradient id="helixGrad" x1="30" y1="12" x2="34" y2="48" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#22d3ee" />
+            <stop offset="50%" stopColor="#0d9488" />
+            <stop offset="100%" stopColor="#0f766e" />
           </linearGradient>
-          <linearGradient id="boneGrad" x1="30" y1="6" x2="35" y2="54" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#f8fafc" />
-            <stop offset="100%" stopColor="#e2e8f0" />
-          </linearGradient>
+
+          {/* Glow filter for DNA nodes */}
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="1.2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+
+          <style>{`
+            @keyframes pulseNode {
+              0%, 100% { r: 1.2; opacity: 0.8; }
+              50% { r: 2.0; opacity: 1; filter: drop-shadow(0 0 1px #fff); }
+            }
+            .dna-node {
+              animation: pulseNode 3s infinite ease-in-out;
+            }
+            .dna-node-1 { animation-delay: 0s; }
+            .dna-node-2 { animation-delay: 1s; }
+            .dna-node-3 { animation-delay: 2s; }
+            
+            .heart-ribbon {
+              transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              transform-origin: 32px 30px;
+            }
+            .logo-svg:hover .heart-ribbon {
+              transform: scale(1.04);
+            }
+            .logo-svg:hover .dna-strand {
+              stroke-width: 3px;
+            }
+            .dna-strand {
+              transition: stroke-width 0.3s ease;
+            }
+          `}</style>
         </defs>
 
-        {/* Left hand/heart curve (Teal) */}
+        {/* Left hand/heart ribbon (Indigo/Violet) */}
         <path 
+          className="heart-ribbon"
           d="M 32,54 C 18,46 8,34 8,22 C 8,11 16,4 26,4 C 29,4 31,5.5 32,7 C 30.5,9.5 29.5,13 29.5,18 C 29.5,29 31.5,38 32,46 Z" 
-          fill="url(#tealGrad)"
+          fill="url(#indigoGrad)"
         />
 
-        {/* Right hand/heart curve (Rose) */}
+        {/* Right hand/heart ribbon (Rose/Coral) */}
         <path 
+          className="heart-ribbon"
           d="M 32,54 C 46,46 56,34 56,22 C 56,11 48,4 38,4 C 35,4 33,5.5 32,7 C 33.5,9.5 34.5,13 34.5,18 C 34.5,29 32.5,38 32,46 Z" 
           fill="url(#roseGrad)"
         />
 
-        {/* Center Bone (White/Silver outline) */}
-        <path 
-          d="M 30,14 C 28,14 27,12 27,10 C 27,8 29,6 31,6 C 32,6 32.5,7 33,7.5 C 33.5,7 34,6 35,6 C 37,6 39,8 39,10 C 39,12 38,14 36,14 L 35,14 L 35,46 L 36,46 C 38,46 39,48 39,50 C 39,52 37,54 35,54 C 34,54 33.5,53 33,52.5 C 32.5,53 32,54 31,54 C 29,54 27,52 27,50 C 27,48 28,46 30,46 Z" 
-          fill="url(#boneGrad)"
-          stroke="#cbd5e1"
-          strokeWidth="1"
-        />
+        {/* Central DNA Double Helix */}
+        {/* DNA Rungs */}
+        <line x1="30" y1="12" x2="34" y2="12" stroke="#e0f2fe" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+        <line x1="31.2" y1="15.5" x2="32.8" y2="15.5" stroke="#e0f2fe" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+        <line x1="31.2" y1="22.5" x2="32.8" y2="22.5" stroke="#e0f2fe" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+        <line x1="30" y1="26" x2="34" y2="26" stroke="#e0f2fe" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+        <line x1="31.2" y1="29.5" x2="32.8" y2="29.5" stroke="#e0f2fe" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+        <line x1="31.2" y1="36.5" x2="32.8" y2="36.5" stroke="#e0f2fe" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+        <line x1="30" y1="40" x2="34" y2="40" stroke="#e0f2fe" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+        <line x1="31.2" y1="43.5" x2="32.8" y2="43.5" stroke="#e0f2fe" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
 
-        {/* Leaves / Sprouts (Green) */}
+        {/* DNA Strand 1 */}
         <path 
-          d="M 31,26 C 26,26 22,22 22,17 C 26,17 30,21 31,26 Z" 
-          fill="url(#greenGrad)"
-        />
-        <path 
-          d="M 33,22 C 38,22 42,18 42,13 C 38,13 34,17 33,22 Z" 
-          fill="url(#greenGrad)"
-        />
-        <path 
-          d="M 32,30 C 32,27 32,24 33,22" 
-          stroke="#16a34a" 
-          strokeWidth="1.5" 
+          className="dna-strand"
+          d="M 30,12 C 30,19 34,19 34,26 C 34,33 30,33 30,40 C 30,47 34,47 34,48" 
+          stroke="url(#helixGrad)"
+          strokeWidth="2"
           strokeLinecap="round"
         />
+
+        {/* DNA Strand 2 */}
+        <path 
+          className="dna-strand"
+          d="M 34,12 C 34,19 30,19 30,26 C 30,33 34,33 34,40 C 34,47 30,47 30,48" 
+          stroke="url(#helixGrad)"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+
+        {/* DNA Glowing Node Dots */}
+        <circle className="dna-node dna-node-1" cx="32" cy="19" r="1.5" fill="#ffffff" filter="url(#glow)" />
+        <circle className="dna-node dna-node-2" cx="32" cy="33" r="1.5" fill="#ffffff" filter="url(#glow)" />
+        <circle className="dna-node dna-node-3" cx="32" cy="47" r="1.5" fill="#ffffff" filter="url(#glow)" />
       </svg>
 
       {showText && (
